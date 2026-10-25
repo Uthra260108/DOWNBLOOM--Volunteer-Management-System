@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard — DawnBloom Volunteer & Student Guidance</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="student-dashboard.html" class="sidebar-brand">
+          <svg class="sidebar-logo" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="sbSunGrad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#E2C2D2"/>
+                <stop offset="50%" stop-color="#B26C86"/>
+                <stop offset="100%" stop-color="#4B3D4F"/>
+              </linearGradient>
+            </defs>
+            <circle cx="20" cy="20" r="18" fill="url(#sbSunGrad)" fill-opacity="0.2" stroke="rgba(226, 194, 210, 0.3)" stroke-width="1.2"/>
+            <path d="M10 26 C12 18, 28 18, 30 26" stroke="#E2C2D2" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M20 12 L20 8 M13 15 L10 12 M27 15 L30 12" stroke="#E2C2D2" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M8 28 C14 24, 26 24, 32 28 C26 31, 14 31, 8 28 Z" fill="#B26C86" fill-opacity="0.7"/>
+            <path d="M20 4 L21 7 L24 8 L21 9 L20 12 L19 9 L16 8 L19 7 Z" fill="#E2C2D2"/>
+          </svg>
+          <div class="brand-text-wrap">
+            <span class="brand-name">DawnBloom</span>
+            <span class="brand-tagline">Student Portal</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-title">My Learning Portal</span>
+        <a href="#sectionOverview" class="nav-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span>Dashboard Overview</span>
+        </a>
+        <a href="#sectionMentor" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span>My Assigned Mentor</span>
+        </a>
+        <a href="#sectionGuidanceSessions" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+          <span>Guidance Sessions</span>
+        </a>
+        <a href="#sectionEvents" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <span>Events & Activities</span>
+        </a>
+        <a href="#sectionTasks" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+          <span>Assigned Tasks</span>
+        </a>
+        <a href="#sectionProgress" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <span>Progress & Milestones</span>
+        </a>
+        <a href="#sectionProfile" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span>My Profile</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-mini-card">
+          <div class="user-avatar" id="sidebarUserAvatar">ST</div>
+          <div class="user-mini-details">
+            <div class="user-mini-name" id="sidebarUserName">Student</div>
+            <div class="user-mini-role" id="sidebarUserRole">Student Portal</div>
+          </div>
+          <button type="button" class="btn-sidebar-logout" id="sidebarLogoutBtn" aria-label="Sign out">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main">
+      <!-- Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button type="button" class="btn-mobile-toggle" id="mobileSidebarToggle" aria-label="Toggle navigation menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <div class="page-title-wrap">
+            <h1>Student Guidance Dashboard</h1>
+            <p>Your personal learning path, guidance sessions, and developmental milestones</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="header-date-badge">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span id="currentDateDisplay">Loading date...</span>
+          </div>
+
+          <!-- Notification Menu -->
+          <div class="header-notifications">
+            <button type="button" class="btn-header-icon" id="headerNotifBtn" aria-label="View recent activity notifications">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <span class="notification-indicator"></span>
+            </button>
+            <div class="notification-dropdown" id="headerNotifDropdown">
+              <div class="notification-dropdown-header">
+                <span>Recent System Activities</span>
+              </div>
+              <ul class="notification-list" id="headerNotifList">
+                <li class="notification-item">Loading activities...</li>
+              </ul>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 8px; margin-left: 8px;">
+            <div class="user-avatar" id="topbarStudentInitials" style="width: 36px; height: 36px; font-size: 0.85rem;">ST</div>
+            <span id="topbarStudentName" style="font-size: 0.88rem; font-weight: 600; color: #fff; display: none;">Student</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="page-body">
+        <!-- 1. Welcoming Banner with Student Name -->
+        <div class="welcome-banner" id="sectionOverview">
+          <div class="welcome-content">
+            <h2 id="studentWelcomeGreeting">Welcome to DawnBloom!</h2>
+            <p class="welcome-quote">“A new beginning. A brighter tomorrow.”</p>
+            <p class="welcome-mission" id="studentBannerSubtitle">
+              Your personal guidance and learning space. Connect with your mentor, prepare for upcoming tutoring sessions, and track your accomplishments.
+            </p>
+          </div>
+        </div>
+
+        <!-- 2. Metric Summary Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Assigned Mentor</span>
+              <div class="stat-icon-wrap" style="background: rgba(178, 108, 134, 0.25);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+              </div>
+            </div>
+            <div class="stat-value" id="statMentorName" style="font-size: 1.3rem;">Sarah Jenkins</div>
+            <div class="stat-footer" id="statMentorSkills">STEM Mentorship</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Upcoming Guidance</span>
+              <div class="stat-icon-wrap" style="background: rgba(92, 174, 139, 0.25);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              </div>
+            </div>
+            <div class="stat-value" id="statUpcomingSessionsCount">1</div>
+            <div class="stat-footer" id="statUpcomingSessionsDesc">Scheduled session</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Active Learning Tasks</span>
+              <div class="stat-icon-wrap" style="background: rgba(222, 171, 110, 0.25);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+              </div>
+            </div>
+            <div class="stat-value" id="statActiveTasksCount">2</div>
+            <div class="stat-footer" id="statActiveTasksDesc">Assigned by mentor</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Learning Goals Progress</span>
+              <div class="stat-icon-wrap" style="background: rgba(121, 163, 219, 0.25);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              </div>
+            </div>
+            <div class="stat-value" id="statProgressPercent">75%</div>
+            <div class="stat-footer" id="statProgressDesc">On track for semester</div>
+          </div>
+        </div>
+
+        <!-- 3. Assigned Mentor Section -->
+        <div class="content-card" id="sectionMentor" style="margin-bottom: var(--space-xl);">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">My Assigned Volunteer Mentor</h2>
+              <p class="card-subtitle">Your designated guide for academic mentoring and personal encouragement</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="mentorCardContainer">
+              <p style="color: var(--text-muted);">Loading assigned mentor...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Upcoming Guidance Sessions Section -->
+        <div class="content-card" id="sectionGuidanceSessions" style="margin-bottom: var(--space-xl);">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Upcoming Guidance Sessions</h2>
+              <p class="card-subtitle">Scheduled one-on-one and group mentoring classes tailored for you</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="upcomingSessionsContainer">
+              <p style="color: var(--text-muted);">Loading guidance schedule...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Assigned Tasks Section -->
+        <div class="content-card" id="sectionTasks" style="margin-bottom: var(--space-xl);">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Assigned Learning Tasks & Practice</h2>
+              <p class="card-subtitle">Complete your practice exercises and mark them as finished to update your progress</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="studentTaskList" class="student-task-list">
+              <p style="color: var(--text-muted);">Loading assigned tasks...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Upcoming Events & Activities Section -->
+        <div class="content-card" id="sectionEvents" style="margin-bottom: var(--space-xl);">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Upcoming Events & Developmental Activities</h2>
+              <p class="card-subtitle">Workshops, reading circles, and community sports you can take part in</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="studentEventsContainer">
+              <p style="color: var(--text-muted);">Loading upcoming events...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Progress & Milestones Section -->
+        <div class="content-card" id="sectionProgress" style="margin-bottom: var(--space-xl);">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Guidance Progress & Learning Milestones</h2>
+              <p class="card-subtitle">Review your completed guidance sessions, activities, and achievements</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <!-- Progress Bar -->
+            <div style="background: rgba(22, 25, 36, 0.8); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 16px; margin-bottom: var(--space-lg);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-weight: 600; color: #fff; font-size: 0.95rem;">Overall Term Progress</span>
+                <span style="font-weight: 700; color: var(--c-blush-pink);" id="studentProgressPercentLabel">75% Completed</span>
+              </div>
+              <div class="progress-bar-wrap" style="height: 12px; background: rgba(75, 61, 79, 0.4);">
+                <div class="progress-bar-fill" id="studentProgressBarFill" style="width: 75%; background: var(--grad-accent);"></div>
+              </div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 8px;" id="studentProgressRatioLabel">
+                2 guidance sessions completed • 2 tasks finished
+              </div>
+            </div>
+
+            <!-- Milestone Badges Grid -->
+            <div style="margin-bottom: var(--space-lg);">
+              <h3 style="font-size: 0.95rem; font-weight: 600; color: var(--c-blush-pink); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Earned Guidance Badges</h3>
+              <div class="milestones-grid">
+                <div class="milestone-badge-card">
+                  <div class="milestone-icon">🌟</div>
+                  <div class="milestone-title">Curiosity Champion</div>
+                  <div class="milestone-desc">Enrolled in DawnBloom guidance and attended introductory orientation.</div>
+                  <div class="milestone-date">Earned • Semester 1</div>
+                </div>
+
+                <div class="milestone-badge-card">
+                  <div class="milestone-icon">📐</div>
+                  <div class="milestone-title">Math & Logic Spark</div>
+                  <div class="milestone-desc">Successfully completed fractions and spatial diagnostic sessions.</div>
+                  <div class="milestone-date">Earned • Oct 2026</div>
+                </div>
+
+                <div class="milestone-badge-card">
+                  <div class="milestone-icon">📖</div>
+                  <div class="milestone-title">Avid Reader</div>
+                  <div class="milestone-desc">Active participant in library circle storytelling and reading tasks.</div>
+                  <div class="milestone-date">In Progress • Oct 2026</div>
+                </div>
+
+                <div class="milestone-badge-card">
+                  <div class="milestone-icon">🤝</div>
+                  <div class="milestone-title">Team Spirit</div>
+                  <div class="milestone-desc">Joined cooperative workshops and community group activities.</div>
+                  <div class="milestone-date">Upcoming</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Completed Sessions History Log -->
+            <div>
+              <h3 style="font-size: 0.95rem; font-weight: 600; color: var(--c-blush-pink); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;">Completed Sessions Log</h3>
+              <div id="completedSessionsHistory">
+                <p style="color: var(--text-muted);">Loading completed sessions...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. Student Profile & Details Section -->
+        <div class="content-card" id="sectionProfile">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">My Student Profile & Guidance Details</h2>
+              <p class="card-subtitle">Your personal guidance records and educational support information</p>
+            </div>
+            <button type="button" class="btn btn-outline btn-sm" id="btnOpenEditPreferences">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+              Update Study Preferences
+            </button>
+          </div>
+          <div class="card-body">
+            <div id="studentProfileDetailsGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-md);">
+              <p style="color: var(--text-muted);">Loading profile records...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL 1: Send Note to Mentor -->
+  <div class="modal-overlay" id="modalMentorNote">
+    <div class="modal-container" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Send Note to Mentor</h3>
+        <button type="button" class="modal-close-btn" id="btnCloseMentorNote" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="formMentorNote">
+        <div class="modal-body">
+          <p style="font-size: 0.86rem; color: var(--text-secondary); margin-bottom: var(--space-md);">
+            Need help with a problem, have a study question, or want to prepare for your next session with <strong id="mentorNoteRecipientName" style="color: var(--c-blush-pink);">your mentor</strong>?
+          </p>
+          <div class="form-group">
+            <label for="mentorNoteMessage" class="form-label">Your Message or Question <span class="req">*</span></label>
+            <textarea id="mentorNoteMessage" class="form-control" rows="4" placeholder="e.g. Hi mentor, could we review word problems again during our next session? Thanks!" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline btn-sm" id="btnCancelMentorNote">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            Send Message
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Session Detail Modal -->
+  <div class="modal-overlay" id="modalSessionDetail">
+    <div class="modal-container" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="sessionDetailTitle">Guidance Session Details</h3>
+        <button type="button" class="modal-close-btn" id="btnCloseSessionDetail" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body" id="sessionDetailContent">
+        <p style="color: var(--text-muted);">Loading details...</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-sm" id="btnOkSessionDetail">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Update Study Preferences -->
+  <div class="modal-overlay" id="modalEditPreferences">
+    <div class="modal-container" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Update Study Preferences & Goals</h3>
+        <button type="button" class="modal-close-btn" id="btnCloseEditPreferences" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="formEditPreferences">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="prefInputSubjects" class="form-label">Subjects Needing Guidance</label>
+            <input type="text" id="prefInputSubjects" class="form-control" placeholder="e.g. Mathematics, Basic Science, Reading">
+          </div>
+          <div class="form-group">
+            <label for="prefInputGoals" class="form-label">Learning Goals & Support Notes</label>
+            <textarea id="prefInputGoals" class="form-control" rows="3" placeholder="Tell your mentor what you want to improve on..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline btn-sm" id="btnCancelEditPreferences">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save Preferences</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/student-dashboard.js"></script>
+</body>
+</html>

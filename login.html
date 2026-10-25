@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — DawnBloom Volunteer & Student Guidance</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-page">
+  <div class="auth-ambient-orb auth-orb-1"></div>
+  <div class="auth-ambient-orb auth-orb-2"></div>
+
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo-badge">
+        <svg width="36" height="36" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="logoSunGrad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#E2C2D2"/>
+              <stop offset="50%" stop-color="#B26C86"/>
+              <stop offset="100%" stop-color="#4B3D4F"/>
+            </linearGradient>
+            <linearGradient id="logoGlowGrad" x1="20" y1="10" x2="20" y2="34" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#E2C2D2" stop-opacity="0.8"/>
+              <stop offset="100%" stop-color="#B26C86" stop-opacity="0.1"/>
+            </linearGradient>
+          </defs>
+          <circle cx="20" cy="20" r="18" fill="url(#logoSunGrad)" fill-opacity="0.15" stroke="rgba(226, 194, 210, 0.3)" stroke-width="1.2"/>
+          <path d="M10 26 C12 18, 28 18, 30 26" stroke="#E2C2D2" stroke-width="2" stroke-linecap="round" fill="url(#logoGlowGrad)"/>
+          <path d="M20 12 L20 8 M13 15 L10 12 M27 15 L30 12" stroke="#E2C2D2" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M8 28 C14 24, 26 24, 32 28 C26 31, 14 31, 8 28 Z" fill="#B26C86" fill-opacity="0.6" stroke="#E2C2D2" stroke-width="1"/>
+          <path d="M20 4 L21 7 L24 8 L21 9 L20 12 L19 9 L16 8 L19 7 Z" fill="#E2C2D2"/>
+        </svg>
+      </div>
+      <h1 class="auth-title">DawnBloom</h1>
+      <p class="auth-subtitle">Volunteer & Student Guidance Management System</p>
+      <p class="auth-quote">“A new beginning. A brighter tomorrow.”</p>
+    </div>
+
+    <!-- Role Selection Tabs: Admin, Volunteer, Student -->
+    <div class="role-selector-tabs" role="tablist" aria-label="Select User Role">
+      <button type="button" class="role-tab-btn active" data-role="Admin" id="tabRoleAdmin">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+        <span>Admin</span>
+      </button>
+      <button type="button" class="role-tab-btn" data-role="Volunteer" id="tabRoleVolunteer">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+        <span>Volunteer</span>
+      </button>
+      <button type="button" class="role-tab-btn" data-role="Student" id="tabRoleStudent">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+        <span>Student</span>
+      </button>
+    </div>
+
+    <!-- 1-Click Fast Instant Login for Evaluation -->
+    <div style="background: rgba(226, 194, 210, 0.08); border: 1px solid rgba(226, 194, 210, 0.25); border-radius: var(--radius-md); padding: 12px 14px; margin-bottom: var(--space-md);">
+      <div style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-blush-pink); margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        <span>⚡ 1-Click Instant Demo Login (Click to enter immediately):</span>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+        <button type="button" class="btn btn-secondary btn-sm" id="instantStudentBtn" style="font-size: 0.78rem; padding: 7px 6px; text-align: center; justify-content: center; font-weight: 600;" title="Login immediately as Student (Leo M. STU-101)">
+          🎓 Student
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" id="instantVolunteerBtn" style="font-size: 0.78rem; padding: 7px 6px; text-align: center; justify-content: center; font-weight: 600;" title="Login immediately as Volunteer (Sarah Jenkins)">
+          🤝 Volunteer
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" id="instantAdminBtn" style="font-size: 0.78rem; padding: 7px 6px; text-align: center; justify-content: center; font-weight: 600;" title="Login immediately as Admin (Dr. Clara Vance)">
+          👑 Admin
+        </button>
+      </div>
+    </div>
+
+    <!-- Demo Accounts Quick Fill -->
+    <div class="demo-credentials-box">
+      <div class="demo-credentials-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        <span>Demo Credentials (Click to Fill):</span>
+      </div>
+      <div class="demo-chips">
+        <button type="button" class="demo-chip-btn" id="chipAdmin" title="Fill Administrator demo credentials">Admin: admin@dawnbloom.org</button>
+        <button type="button" class="demo-chip-btn" id="chipVolunteer" title="Fill Volunteer demo credentials">Volunteer: volunteer@dawnbloom.org</button>
+        <button type="button" class="demo-chip-btn" id="chipStudent" title="Fill Student demo credentials">Student: STU-101 (Leo M.)</button>
+      </div>
+    </div>
+
+    <!-- Login Form -->
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label for="loginIdentifier" class="form-label" id="identifierLabel">Administrator Email Address <span class="req">*</span></label>
+        <div class="input-wrapper">
+          <input type="text" id="loginIdentifier" class="form-control" placeholder="e.g. admin@dawnbloom.org" required autocomplete="username">
+        </div>
+        <div class="form-error-feedback" id="identifierError">Please enter your email or Student ID.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="loginPassword" class="form-label">Password <span class="req">*</span></label>
+        <div class="input-wrapper">
+          <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required autocomplete="current-password">
+          <button type="button" id="togglePasswordBtn" class="input-icon-btn" aria-label="Toggle password visibility">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </button>
+        </div>
+        <div class="form-error-feedback" id="passwordError">Password is required.</div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg);">
+        <label class="form-check">
+          <input type="checkbox" id="rememberMe" checked>
+          <span>Remember this session</span>
+        </label>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">(Browser storage)</span>
+      </div>
+
+      <button type="submit" id="loginSubmitBtn" class="btn btn-primary btn-block">
+        <span id="btnText">Sign In as Administrator</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </button>
+
+      <div style="text-align: center; margin-top: var(--space-lg); font-size: 0.88rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px;">
+        <div>
+          Are you a student?
+          <a href="register.html?role=student" style="font-weight: 600; margin-left: 4px;">Register with Student ID</a>
+        </div>
+        <div>
+          Volunteer or Staff?
+          <a href="register.html?role=volunteer" style="font-weight: 600; margin-left: 4px;">Register Volunteer Account</a>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    (function () {
+      // Guard: If already logged in, redirect to correct dashboard
+      window.DawnBloomAuth.requireGuest();
+
+      let currentRole = 'Admin';
+
+      const form = document.getElementById('loginForm');
+      const identifierInput = document.getElementById('loginIdentifier');
+      const identifierLabel = document.getElementById('identifierLabel');
+      const passwordInput = document.getElementById('loginPassword');
+      const rememberInput = document.getElementById('rememberMe');
+      const toggleBtn = document.getElementById('togglePasswordBtn');
+      const submitBtn = document.getElementById('loginSubmitBtn');
+      const btnText = document.getElementById('btnText');
+      const identifierError = document.getElementById('identifierError');
+      const passwordError = document.getElementById('passwordError');
+
+      // Role Tabs
+      const tabAdmin = document.getElementById('tabRoleAdmin');
+      const tabVolunteer = document.getElementById('tabRoleVolunteer');
+      const tabStudent = document.getElementById('tabRoleStudent');
+      const allTabs = [tabAdmin, tabVolunteer, tabStudent];
+
+      function setRole(role, autoFill = true) {
+        currentRole = role;
+        allTabs.forEach(tab => {
+          if (tab.getAttribute('data-role') === role) {
+            tab.classList.add('active');
+          } else {
+            tab.classList.remove('active');
+          }
+        });
+
+        // Reset errors
+        identifierError.style.display = 'none';
+        passwordError.style.display = 'none';
+        identifierInput.classList.remove('has-error');
+        passwordInput.classList.remove('has-error');
+
+        if (role === 'Student') {
+          identifierLabel.innerHTML = 'Student ID or Registered Email <span class="req">*</span>';
+          identifierInput.placeholder = 'e.g. STU-101 or leo@dawnbloom.org';
+          btnText.textContent = 'Sign In to Student Dashboard';
+          if (autoFill) {
+            identifierInput.value = 'STU-101';
+            passwordInput.value = 'student123';
+          }
+        } else if (role === 'Volunteer') {
+          identifierLabel.innerHTML = 'Volunteer Email Address <span class="req">*</span>';
+          identifierInput.placeholder = 'e.g. volunteer@dawnbloom.org';
+          btnText.textContent = 'Sign In as Volunteer';
+          if (autoFill) {
+            identifierInput.value = 'volunteer@dawnbloom.org';
+            passwordInput.value = 'volunteer123';
+          }
+        } else {
+          identifierLabel.innerHTML = 'Administrator Email Address <span class="req">*</span>';
+          identifierInput.placeholder = 'e.g. admin@dawnbloom.org';
+          btnText.textContent = 'Sign In as Administrator';
+          if (autoFill) {
+            identifierInput.value = 'admin@dawnbloom.org';
+            passwordInput.value = 'admin123';
+          }
+        }
+      }
+
+      tabAdmin.addEventListener('click', () => setRole('Admin', true));
+      tabVolunteer.addEventListener('click', () => setRole('Volunteer', true));
+      tabStudent.addEventListener('click', () => setRole('Student', true));
+
+      // Instant 1-Click login buttons
+      function triggerInstantLogin(role) {
+        setRole(role, true);
+        submitBtn.disabled = true;
+        btnText.textContent = 'Entering ' + role + ' portal...';
+        setTimeout(() => {
+          try {
+            const res = window.DawnBloomAuth.quickLogin(role);
+            if (res && res.success) {
+              window.location.replace(res.redirectUrl);
+            } else {
+              submitBtn.disabled = false;
+              btnText.textContent = 'Sign In';
+            }
+          } catch (e) {
+            submitBtn.disabled = false;
+            btnText.textContent = 'Sign In';
+          }
+        }, 120);
+      }
+
+      const instStu = document.getElementById('instantStudentBtn');
+      const instVol = document.getElementById('instantVolunteerBtn');
+      const instAdm = document.getElementById('instantAdminBtn');
+      if (instStu) instStu.addEventListener('click', () => triggerInstantLogin('Student'));
+      if (instVol) instVol.addEventListener('click', () => triggerInstantLogin('Volunteer'));
+      if (instAdm) instAdm.addEventListener('click', () => triggerInstantLogin('Admin'));
+
+      // Check URL query param ?role=student or ?role=volunteer
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryRole = urlParams.get('role');
+      if (queryRole && queryRole.toLowerCase() === 'student') {
+        setRole('Student', true);
+      } else if (queryRole && queryRole.toLowerCase() === 'volunteer') {
+        setRole('Volunteer', true);
+      } else {
+        setRole('Admin', true);
+      }
+
+      // Password toggle
+      window.DawnBloomAuth.setupPasswordToggle(passwordInput, toggleBtn);
+
+      // Demo Chips Quick Fill
+      function fillDemo(role, identifier, password) {
+        setRole(role);
+        identifierInput.value = identifier;
+        passwordInput.value = password;
+        identifierError.style.display = 'none';
+        passwordError.style.display = 'none';
+        identifierInput.classList.remove('has-error');
+        passwordInput.classList.remove('has-error');
+      }
+
+      document.getElementById('chipAdmin').addEventListener('click', () => {
+        fillDemo('Admin', 'admin@dawnbloom.org', 'admin123');
+      });
+
+      document.getElementById('chipVolunteer').addEventListener('click', () => {
+        fillDemo('Volunteer', 'volunteer@dawnbloom.org', 'volunteer123');
+      });
+
+      document.getElementById('chipStudent').addEventListener('click', () => {
+        fillDemo('Student', 'STU-101', 'student123');
+      });
+
+      // Auto-detect role as user types
+      identifierInput.addEventListener('input', () => {
+        const val = identifierInput.value.trim().toLowerCase();
+        if (val.startsWith('stu-') || val === 'leo@dawnbloom.org' || val === 'maya@dawnbloom.org') {
+          if (currentRole !== 'Student') setRole('Student');
+        } else if (val.startsWith('vol') || val === 'volunteer@dawnbloom.org') {
+          if (currentRole !== 'Volunteer') setRole('Volunteer');
+        } else if (val.startsWith('admin') || val === 'admin@dawnbloom.org') {
+          if (currentRole !== 'Admin') setRole('Admin');
+        }
+      });
+
+      // Handle submission
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let valid = true;
+
+        const identifier = identifierInput.value.trim();
+        const password = passwordInput.value;
+
+        // Reset errors
+        identifierError.style.display = 'none';
+        passwordError.style.display = 'none';
+        identifierInput.classList.remove('has-error');
+        passwordInput.classList.remove('has-error');
+
+        if (!identifier) {
+          identifierError.textContent = currentRole === 'Student' ? 'Please enter your Student ID or email.' : 'Please enter your email address.';
+          identifierError.style.display = 'block';
+          identifierInput.classList.add('has-error');
+          valid = false;
+        }
+
+        if (!password) {
+          passwordError.textContent = 'Please enter your password.';
+          passwordError.style.display = 'block';
+          passwordInput.classList.add('has-error');
+          valid = false;
+        }
+
+        if (!valid) return;
+
+        // Loading state
+        submitBtn.disabled = true;
+        btnText.textContent = 'Signing in...';
+
+        setTimeout(() => {
+          try {
+            const result = window.DawnBloomAuth.login(identifier, password, rememberInput.checked, currentRole);
+            if (result && result.success) {
+              if (window.DawnBloom && window.DawnBloom.showToast) {
+                window.DawnBloom.showToast(result.message, 'success');
+              }
+              let targetRedirect = result.user.role === 'Student' ? 'student-dashboard.html' : 'dashboard.html';
+              const paramRedirect = urlParams.get('redirect');
+              if (paramRedirect && result.user.role !== 'Student' && !paramRedirect.includes('student')) {
+                targetRedirect = paramRedirect;
+              }
+              setTimeout(() => {
+                window.location.replace(targetRedirect);
+              }, 250);
+            } else {
+              submitBtn.disabled = false;
+              const errMsg = (result && result.message) ? result.message : 'Invalid credentials. Please verify your login ID and password.';
+              if (window.DawnBloom && window.DawnBloom.showToast) {
+                window.DawnBloom.showToast(errMsg, 'error');
+              }
+              passwordError.textContent = errMsg;
+              passwordError.style.display = 'block';
+              passwordInput.classList.add('has-error');
+              btnText.textContent = currentRole === 'Student' ? 'Sign In to Student Dashboard' : (currentRole === 'Volunteer' ? 'Sign In as Volunteer' : 'Sign In as Administrator');
+            }
+          } catch (err) {
+            console.error('Sign in exception:', err);
+            submitBtn.disabled = false;
+            passwordError.textContent = 'An error occurred during sign in. Please try again.';
+            passwordError.style.display = 'block';
+            btnText.textContent = 'Sign In';
+          }
+        }, 150);
+      });
+    })();
+  </script>
+</body>
+</html>

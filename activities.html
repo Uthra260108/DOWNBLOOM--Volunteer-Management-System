@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programmes & Activities — DawnBloom</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="sidebar-brand">
+          <svg class="sidebar-logo" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="sbSunGrad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#E2C2D2"/>
+                <stop offset="50%" stop-color="#B26C86"/>
+                <stop offset="100%" stop-color="#4B3D4F"/>
+              </linearGradient>
+            </defs>
+            <circle cx="20" cy="20" r="18" fill="url(#sbSunGrad)" fill-opacity="0.2" stroke="rgba(226, 194, 210, 0.3)" stroke-width="1.2"/>
+            <path d="M10 26 C12 18, 28 18, 30 26" stroke="#E2C2D2" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M20 12 L20 8 M13 15 L10 12 M27 15 L30 12" stroke="#E2C2D2" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M8 28 C14 24, 26 24, 32 28 C26 31, 14 31, 8 28 Z" fill="#B26C86" fill-opacity="0.7"/>
+            <path d="M20 4 L21 7 L24 8 L21 9 L20 12 L19 9 L16 8 L19 7 Z" fill="#E2C2D2"/>
+          </svg>
+          <div class="brand-text-wrap">
+            <span class="brand-name">DawnBloom</span>
+            <span class="brand-tagline">Student Guidance</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-title">Overview</span>
+        <a href="dashboard.html" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span>Dashboard</span>
+        </a>
+
+        <span class="nav-section-title">Community & Guidance</span>
+        <a href="volunteers.html" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <span>Volunteers</span>
+        </a>
+        <a href="students.html" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+          <span>Students</span>
+        </a>
+        <a href="guidance.html" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+          <span>Guidance Sessions</span>
+        </a>
+
+        <span class="nav-section-title">Programmes & Actions</span>
+        <a href="events.html" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <span>Events & Scheduling</span>
+        </a>
+        <a href="tasks.html" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+          <span>Tasks</span>
+          <span class="nav-badge" id="navTaskBadge">0</span>
+        </a>
+        <a href="activities.html" class="nav-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <span>Activities</span>
+        </a>
+
+        <span class="nav-section-title">Analytics & Account</span>
+        <a href="reports.html" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          <span>Reports & Export</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span>My Profile</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-mini-card">
+          <div class="user-avatar" id="sidebarUserAvatar">AD</div>
+          <div class="user-mini-details">
+            <div class="user-mini-name" id="sidebarUserName">Dr. Clara Vance</div>
+            <div class="user-mini-role" id="sidebarUserRole">Administrator</div>
+          </div>
+          <button type="button" class="btn-sidebar-logout" id="sidebarLogoutBtn" aria-label="Sign out">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main">
+      <header class="app-header">
+        <div class="header-left">
+          <button type="button" class="btn-mobile-toggle" id="mobileSidebarToggle" aria-label="Toggle navigation menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <div class="page-title-wrap">
+            <h1>Programmes & Activities</h1>
+            <p>Manage structured student development curricula, reading clubs, and arts</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="header-date-badge">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span id="currentDateDisplay">Loading date...</span>
+          </div>
+
+          <div class="header-notifications">
+            <button type="button" class="btn-header-icon" id="headerNotifBtn" aria-label="View notifications">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <span class="notification-indicator"></span>
+            </button>
+            <div class="notification-dropdown" id="headerNotifDropdown">
+              <div class="notification-dropdown-header">
+                <span>Recent System Activities</span>
+              </div>
+              <ul class="notification-list" id="headerNotifList"></ul>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="page-body">
+        <!-- Toolbar Bar -->
+        <div class="toolbar-bar">
+          <div class="toolbar-search-wrap">
+            <svg class="toolbar-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="searchActivity" class="form-control toolbar-search-input" placeholder="Search programmes by name, target group, or outcome...">
+          </div>
+
+          <div class="toolbar-filters">
+            <select id="filterActivityCategory" class="form-control" style="width: auto;">
+              <option value="all">All Categories</option>
+              <option value="Literacy Development">Literacy Development</option>
+              <option value="Skill Development">Skill Development</option>
+              <option value="Creative Expression">Creative Expression</option>
+              <option value="Career Guidance">Career Guidance</option>
+              <option value="Life Skills">Life Skills</option>
+            </select>
+
+            <select id="filterActivityStatus" class="form-control" style="width: auto;">
+              <option value="all">All Statuses</option>
+              <option value="Planned">Planned</option>
+              <option value="Ongoing">Ongoing</option>
+              <option value="Completed">Completed</option>
+            </select>
+
+            <button type="button" class="btn btn-primary" id="btnAddActivity">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Add Activity</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Section Title & Counter -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md);">
+          <div style="font-weight: 600; font-size: 1.05rem; color: #fff;">Student Support Programmes</div>
+          <span class="badge badge-tag" id="activityCountBadge">0 Programmes</span>
+        </div>
+
+        <!-- Activities Grid -->
+        <div class="cards-grid" id="activitiesGrid">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <footer class="app-footer">
+        <div><strong>DawnBloom</strong> — Volunteer & Student Guidance Management System</div>
+        <div><span>“A new beginning. A brighter tomorrow.”</span></div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Create / Edit Activity Modal -->
+  <div class="modal-overlay" id="activityModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="activityModalTitle">Create Student Activity Programme</h3>
+        <button type="button" class="modal-close-btn" id="activityModalCloseBtn">&times;</button>
+      </div>
+      <form id="activityForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="actName" class="form-label">Programme / Activity Name <span class="req">*</span></label>
+            <input type="text" id="actName" class="form-control" placeholder="e.g. DawnBloom Reading Circle" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="actCategory" class="form-label">Category <span class="req">*</span></label>
+              <select id="actCategory" class="form-control" required>
+                <option value="Literacy Development">Literacy Development</option>
+                <option value="Skill Development">Skill Development</option>
+                <option value="Creative Expression">Creative Expression</option>
+                <option value="Career Guidance">Career Guidance</option>
+                <option value="Life Skills">Life Skills</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="actStatus" class="form-label">Status <span class="req">*</span></label>
+              <select id="actStatus" class="form-control" required>
+                <option value="Ongoing">Ongoing</option>
+                <option value="Planned">Planned</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="actDate" class="form-label">Start / Session Date <span class="req">*</span></label>
+              <input type="date" id="actDate" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="actDuration" class="form-label">Duration / Recurrence</label>
+              <input type="text" id="actDuration" class="form-control" placeholder="e.g. 1 Hour / Weekly">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="actTargetGroup" class="form-label">Target Student Group</label>
+              <input type="text" id="actTargetGroup" class="form-control" placeholder="e.g. Primary Students (Ages 7–11)">
+            </div>
+            <div class="form-group">
+              <label for="actVolunteers" class="form-label">Volunteers Involved</label>
+              <input type="text" id="actVolunteers" class="form-control" placeholder="e.g. Marcus Vance, Elena Rostova">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="actDescription" class="form-label">Description & Learning Objectives</label>
+            <textarea id="actDescription" class="form-control" placeholder="Describe the curriculum, interactive elements, and educational intent..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="actOutcome" class="form-label">Observed Outcome / Impact (Optional)</label>
+            <textarea id="actOutcome" class="form-control" placeholder="Record positive improvements, finished works, or supervisor observations..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline btn-sm" id="btnCancelActivityModal">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save Programme</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Record Outcome Modal -->
+  <div class="modal-overlay" id="outcomeModal">
+    <div class="modal-container" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Record Activity Outcome</h3>
+        <button type="button" class="modal-close-btn" id="outcomeModalCloseBtn">&times;</button>
+      </div>
+      <form id="outcomeForm">
+        <div class="modal-body">
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
+            Document student learning results and feedback for: <strong id="outcomeActivityTitle" style="color: var(--c-blush-pink);"></strong>
+          </p>
+
+          <div class="form-group">
+            <label for="outcomeStatus" class="form-label">Update Programme Status</label>
+            <select id="outcomeStatus" class="form-control">
+              <option value="Ongoing">Ongoing</option>
+              <option value="Completed">Completed</option>
+              <option value="Planned">Planned</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="outcomeNotes" class="form-label">Outcome Observations & Highlights <span class="req">*</span></label>
+            <textarea id="outcomeNotes" class="form-control" style="min-height: 120px;" placeholder="e.g. 15 students participated and completed fraction exercises with 85% accuracy..." required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline btn-sm" id="btnCancelOutcome">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save Outcome</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/activities.js"></script>
+</body>
+</html>
