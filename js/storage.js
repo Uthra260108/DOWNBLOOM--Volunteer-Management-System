@@ -498,6 +498,36 @@
         venue: 'Outdoor Activity Pavilion',
         notes: 'Color wheel mixing and autumn leaf sketches created.',
         status: 'Completed'
+      },
+      {
+        id: 'GID-205',
+        title: 'Foundational Phonics & Story Theater',
+        subject: 'English Literacy',
+        studentId: 'STU-102',
+        studentName: 'Maya T. (Demo Student)',
+        volunteerId: 'VOL-002',
+        volunteerName: 'Marcus Vance',
+        date: getRelativeDate(-11),
+        startTime: '15:00',
+        endTime: '16:00',
+        venue: 'Children’s Library Room',
+        notes: 'Read chapters 1 and 2 of Charlotte’s Web. Completed vocabulary puzzle sheet with 100% accuracy.',
+        status: 'Completed'
+      },
+      {
+        id: 'GID-206',
+        title: 'Career Exploration: Software & Engineering Pathways',
+        subject: 'Career Mentorship',
+        studentId: 'STU-103',
+        studentName: 'Ethan W. (Demo Student)',
+        volunteerId: 'VOL-005',
+        volunteerName: 'David Chen',
+        date: getRelativeDate(-18),
+        startTime: '11:00',
+        endTime: '12:30',
+        venue: 'Conference Room Alpha',
+        notes: 'Discussed polytechnic technical courses, computer science roles, and study habits.',
+        status: 'Completed'
       }
     ];
 
@@ -557,7 +587,38 @@
         assignedVolunteers: ['VOL-001', 'VOL-002', 'VOL-003'],
         assignedVolunteerNames: 'Sarah Jenkins, Marcus Vance, Elena Rostova',
         expectedParticipants: 45,
-        status: 'Scheduled'
+        status: 'Scheduled',
+        outcome: 'Scheduled for upcoming weekend.'
+      },
+      {
+        id: 'EVT-305',
+        name: 'Annual Youth Science & Arts Exhibition',
+        description: 'Historical showcase of student science experiments, robotics models, and oil pastel paintings.',
+        category: 'Educational Workshop',
+        date: getRelativeDate(-14),
+        startTime: '10:00',
+        endTime: '15:30',
+        location: 'Main Community Hall',
+        assignedVolunteers: ['VOL-001', 'VOL-003'],
+        assignedVolunteerNames: 'Sarah Jenkins, Elena Rostova',
+        expectedParticipants: 50,
+        status: 'Completed',
+        outcome: '48 children proudly exhibited their models. 12 volunteer certificates were awarded.'
+      },
+      {
+        id: 'EVT-306',
+        name: 'Summer Reading Marathon & Story Theater',
+        description: 'Historical three-day intensive literacy immersion with puppet shows and vocabulary drills.',
+        category: 'Reading Session',
+        date: getRelativeDate(-28),
+        startTime: '09:00',
+        endTime: '13:00',
+        location: 'Children’s Library Room',
+        assignedVolunteers: ['VOL-002', 'VOL-004'],
+        assignedVolunteerNames: 'Marcus Vance, Priya Nair',
+        expectedParticipants: 32,
+        status: 'Completed',
+        outcome: 'Students read a combined total of 115 books. 8 children advanced to higher reading bands.'
       }
     ];
 
@@ -789,7 +850,7 @@
     saveCollection(KEYS.PREFERENCES, defaultPreferences);
     saveCollection(KEYS.ACTIVITY_LOG, initialLogs);
 
-    safeStorageSet('dawnbloom_seeded_v3', 'true');
+    safeStorageSet('dawnbloom_seeded_v4', 'true');
     console.info('[DawnBloom] Initial demonstration data seeding completed.');
   }
 
@@ -800,14 +861,15 @@
     safeStorageRemove('dawnbloom_seeded_v1');
     safeStorageRemove('dawnbloom_seeded_v2');
     safeStorageRemove('dawnbloom_seeded_v3');
+    safeStorageRemove('dawnbloom_seeded_v4');
     seedInitialData(true);
     logActivity('Reset', 'Demonstration data was reset to original seed state', 'All Collections');
   }
 
-  // Ensure upgrade if migrated from v1 or v2
+  // Ensure upgrade if migrated from previous seed versions
   (function checkMigration() {
     try {
-      if (!safeStorageGet('dawnbloom_seeded_v3')) {
+      if (!safeStorageGet('dawnbloom_seeded_v4')) {
         seedInitialData(true);
       }
     } catch (e) {

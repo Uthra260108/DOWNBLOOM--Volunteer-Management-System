@@ -486,27 +486,41 @@
     if (progressLabel) progressLabel.textContent = `${rate}% Completed`;
     if (progressDetails) progressDetails.textContent = `${completedSessions.length} guidance sessions completed • ${completedTasks.length} tasks finished`;
 
-    // Completed sessions history log
+    // Completed sessions and learning accomplishments history log
     const historyContainer = document.getElementById('completedSessionsHistory');
     if (historyContainer) {
-      if (completedSessions.length === 0) {
-        historyContainer.innerHTML = `<p style="font-size: 0.84rem; color: var(--text-muted); text-align: center; padding: 12px;">Completed guidance sessions will be archived here.</p>`;
-      } else {
-        historyContainer.innerHTML = completedSessions.map(cs => `
-          <div style="display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(134, 128, 146, 0.15);">
-            <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--state-success-bg); color: var(--state-success); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.85rem; font-weight: bold;">✓</div>
-            <div>
-              <div style="font-weight: 600; font-size: 0.9rem; color: #fff;">${STORAGE.escapeHtml(cs.title)}</div>
-              <div style="font-size: 0.78rem; color: var(--text-muted);">
-                ${window.DawnBloom.formatDate(cs.date)} • Subject: ${STORAGE.escapeHtml(cs.subject)} • Mentor: ${STORAGE.escapeHtml(cs.volunteerName)}
-              </div>
-              <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 3px; font-style: italic;">
-                "${STORAGE.escapeHtml(cs.notes || 'Demonstrated good engagement.')}"
+      historyContainer.innerHTML = `
+        <div style="margin-bottom: 16px;">
+          <div style="font-size: 0.84rem; font-weight: 600; color: var(--c-blush-pink); margin-bottom: 8px;">Completed Guidance Sessions (${completedSessions.length})</div>
+          ${completedSessions.length === 0 ? '<p style="font-size: 0.8rem; color: var(--text-muted);">No completed sessions archived yet.</p>' : completedSessions.map(cs => `
+            <div style="display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(134, 128, 146, 0.15);">
+              <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--state-success-bg); color: var(--state-success); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.85rem; font-weight: bold;">✓</div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.9rem; color: #fff;">${STORAGE.escapeHtml(cs.title)}</div>
+                <div style="font-size: 0.78rem; color: var(--text-muted);">
+                  📅 ${window.DawnBloom.formatDate(cs.date)} • Subject: ${STORAGE.escapeHtml(cs.subject)} • Mentor: ${STORAGE.escapeHtml(cs.volunteerName)}
+                </div>
+                <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 3px; font-style: italic;">
+                  "${STORAGE.escapeHtml(cs.notes || 'Demonstrated good engagement.')}"
+                </div>
               </div>
             </div>
-          </div>
-        `).join('');
-      }
+          `).join('')}
+        </div>
+
+        <div>
+          <div style="font-size: 0.84rem; font-weight: 600; color: var(--c-blush-pink); margin-bottom: 8px;">Accomplished Tasks History (${completedTasks.length})</div>
+          ${completedTasks.length === 0 ? '<p style="font-size: 0.8rem; color: var(--text-muted);">No completed tasks yet. Finish a task above to see it archived here.</p>' : completedTasks.map(ct => `
+            <div style="display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(134, 128, 146, 0.15);">
+              <div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(87, 184, 148, 0.2); color: var(--state-success); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.75rem; font-weight: bold;">✓</div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.88rem; color: #fff; text-decoration: line-through; opacity: 0.85;">${STORAGE.escapeHtml(ct.title)}</div>
+                <div style="font-size: 0.76rem; color: var(--text-muted);">Completed • Due Date: ${window.DawnBloom.formatDate(ct.dueDate)} • Mentor: ${STORAGE.escapeHtml(ct.assignedVolunteerName || 'Tutor')}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
     }
   }
 

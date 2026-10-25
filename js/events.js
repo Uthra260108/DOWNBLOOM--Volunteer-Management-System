@@ -13,6 +13,7 @@
   let currentEvents = [];
   let currentVolunteers = [];
   let editingEventId = null;
+  let activeView = 'upcoming'; // 'upcoming' | 'history' | 'all'
 
   // DOM Elements
   let eventGridContainer;
@@ -37,6 +38,26 @@
     volunteersCheckboxContainer = document.getElementById('eventVolunteersCheckboxes');
     detailModalOverlay = document.getElementById('eventDetailModal');
     detailContent = document.getElementById('eventDetailContent');
+
+    // Event History / Upcoming Navigation Tabs
+    const tabUpcoming = document.getElementById('tabUpcomingEvents');
+    const tabPast = document.getElementById('tabPastEvents');
+    const tabAll = document.getElementById('tabAllEvents');
+    const allViewTabs = [tabUpcoming, tabPast, tabAll];
+
+    function setView(view) {
+      activeView = view;
+      allViewTabs.forEach(t => {
+        if (!t) return;
+        if (t.getAttribute('data-view') === view) t.classList.add('active');
+        else t.classList.remove('active');
+      });
+      applyFilters();
+    }
+
+    if (tabUpcoming) tabUpcoming.addEventListener('click', () => setView('upcoming'));
+    if (tabPast) tabPast.addEventListener('click', () => setView('history'));
+    if (tabAll) tabAll.addEventListener('click', () => setView('all'));
 
     // Event listeners
     if (searchInput) searchInput.addEventListener('input', applyFilters);
@@ -111,6 +132,22 @@
 
   function applyFilters() {
     let list = [...currentEvents];
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    // Filter by Active View Tab (Upcoming vs History)
+    const headingEl = document.getElementById('eventSectionHeading');
+    if (activeView === 'upcoming') {
+      list = list.filter(e => e.status === 'Scheduled' || (e.status !== 'Cancelled' && (e.date || '') >= todayStr));
+      list.sort((a, b) => (a.date || '').localeCompare(b.date || '') || (a.startTime || '').localeCompare(b.startTime || ''));
+      if (headingEl) headingEl.textContent = 'Scheduled Programmes & Upcoming Events';
+    } else if (activeView === 'history') {
+      list = list.filter(e => e.status === 'Completed' || ((e.date || '') < todayStr && e.status !== 'Cancelled'));
+      list.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+      if (headingEl) headingEl.textContent = '📜 Past Events & Outcomes History Archive';
+    } else {
+      list.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+      if (headingEl) headingEl.textContent = 'All Historical & Scheduled Events';
+    }
 
     // Search query
     const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
@@ -119,7 +156,8 @@
         (e.name || '').toLowerCase().includes(query) ||
         (e.category || '').toLowerCase().includes(query) ||
         (e.location || '').toLowerCase().includes(query) ||
-        (e.description || '').toLowerCase().includes(query)
+        (e.description || '').toLowerCase().includes(query) ||
+        (e.assignedVolunteerNames || '').toLowerCase().includes(query)
       );
     }
 
@@ -135,9 +173,6 @@
       list = list.filter(e => e.status === status);
     }
 
-    // Sort: Nearest upcoming first
-    list.sort((a, b) => (a.date || '').localeCompare(b.date || '') || (a.startTime || '').localeCompare(b.startTime || ''));
-
     renderCards(list);
   }
 
@@ -150,6 +185,7 @@
     }
 
     if (list.length === 0) {
+      const isHistory = activeView === 'history';
       eventGridContainer.innerHTML = `
         <div style="grid-column: 1 / -1;">
           <div class="empty-state">
@@ -159,8 +195,8 @@
               <line x1="8" y1="2" x2="8" y2="6"></line>
               <line x1="3" y1="10" x2="21" y2="10"></line>
             </svg>
-            <h3 class="empty-state-title">No Events Found</h3>
-            <p class="empty-state-desc">Try clearing your search query or schedule a new event or educational workshop.</p>
+            <h3 class="empty-state-title">${isHistory ? 'No Past Events Found' : 'No Events Found'}</h3>
+            <p class="empty-state-desc">${isHistory ? 'Completed events and activity milestones will appear here in the history archive.' : 'Try clearing your search query or schedule a new event or educational workshop.'}</p>
             <button type="button" class="btn btn-primary btn-sm" onclick="window.DawnBloomEvents.openCreateModal()">
               Create Event
             </button>
@@ -201,18 +237,24 @@
               </div>
               <div class="item-card-meta-row">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
-                <span>${STORAGE.escapeHtml(evt.assignedVolunteerNames || 'Unassigned')}</span>
+                <span>Mentors: <strong>${STORAGE.escapeHtml(evt.assignedVolunteerNames || 'Unassigned')}</strong></span>
               </div>
               <div class="item-card-meta-row">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                <span>${evt.expectedParticipants || 20} Expected Children</span>
+                <span>${evt.expectedParticipants || 20} Expected / Attended Children</span>
               </div>
+
+              ${evt.outcome ? `
+                <div style="margin-top: 10px; background: rgba(75, 61, 79, 0.25); border-left: 3px solid var(--c-blush-pink); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 0.8rem; color: var(--text-secondary);">
+                  <strong style="color: #fff;">Recorded Outcome:</strong> ${STORAGE.escapeHtml(evt.outcome)}
+                </div>
+              ` : ''}
             </div>
           </div>
 
           <div class="item-card-footer">
             <button type="button" class="btn btn-outline btn-sm" onclick="window.DawnBloomEvents.viewDetails('${evt.id}')">
-              Details
+              Details & History
             </button>
             <div style="display: flex; gap: 6px;">
               ${evt.status === 'Scheduled' ? `
@@ -361,6 +403,15 @@
           `).join('')}
         </div>
       </div>
+
+      ${evt.outcome ? `
+        <div style="margin-top: 14px;">
+          <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px;">Recorded Outcome & Impact History</div>
+          <div style="padding: 12px; background: rgba(75, 61, 79, 0.35); border-left: 3px solid var(--c-blush-pink); border-radius: var(--radius-sm); font-size: 0.88rem; color: #fff; line-height: 1.45;">
+            ${STORAGE.escapeHtml(evt.outcome)}
+          </div>
+        </div>
+      ` : ''}
     `;
 
     detailModalOverlay.classList.add('open');

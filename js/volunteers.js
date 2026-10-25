@@ -299,62 +299,195 @@
     const vol = currentVolunteers.find(v => v.id === id);
     if (!vol || !detailModalOverlay || !detailContent) return;
 
+    // Fetch related history for this volunteer
+    const allStudents = STORAGE.getCollection(KEYS.STUDENTS);
+    const assignedStudents = allStudents.filter(s => 
+      s.assignedVolunteerId === vol.id || 
+      (s.assignedVolunteerName && s.assignedVolunteerName.toLowerCase() === vol.name.toLowerCase())
+    );
+
+    const allGuidance = STORAGE.getCollection(KEYS.GUIDANCE);
+    const conductedSessions = allGuidance.filter(g => 
+      g.volunteerId === vol.id || 
+      (g.volunteerName && g.volunteerName.toLowerCase().includes(vol.name.toLowerCase()))
+    );
+
+    const allEvents = STORAGE.getCollection(KEYS.EVENTS);
+    const participatedEvents = allEvents.filter(e => 
+      (e.assignedVolunteers && e.assignedVolunteers.includes(vol.id)) || 
+      (e.assignedVolunteerNames && e.assignedVolunteerNames.toLowerCase().includes(vol.name.toLowerCase()))
+    );
+
     detailContent.innerHTML = `
-      <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;">
+      <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 16px;">
         <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--grad-primary); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; color: #fff;">
           ${(vol.name || 'V').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
         </div>
-        <div>
-          <h3 style="font-size: 1.3rem; font-weight: 700; color: #fff;">${STORAGE.escapeHtml(vol.name)}</h3>
-          <div style="display: flex; gap: 8px; align-items: center; margin-top: 4px;">
+        <div style="flex: 1;">
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: #fff; margin: 0;">${STORAGE.escapeHtml(vol.name)}</h3>
+          <div style="display: flex; gap: 8px; align-items: center; margin-top: 4px; flex-wrap: wrap;">
             <span class="badge ${vol.status === 'Active' ? 'badge-active' : 'badge-inactive'}">${STORAGE.escapeHtml(vol.status)}</span>
             <span style="font-size: 0.8rem; color: var(--text-muted);">Joined ${window.DawnBloom.formatDate(vol.joinDate)}</span>
+            <span style="font-size: 0.8rem; color: var(--c-blush-pink);">ID: ${STORAGE.escapeHtml(vol.id)}</span>
           </div>
         </div>
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; font-size: 0.9rem;">
-        <div>
-          <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase;">Email Address</div>
-          <div style="color: var(--text-primary); font-weight: 500;">${STORAGE.escapeHtml(vol.email)}</div>
+      <!-- Volunteer Detail History Tabs -->
+      <div class="tabs-nav" style="margin-bottom: 16px;">
+        <button type="button" class="tab-btn active" id="tabVolOverview" onclick="window.DawnBloomVolunteers.switchDetailTab('overview')">
+          👤 Profile & Contact
+        </button>
+        <button type="button" class="tab-btn" id="tabVolGuidance" onclick="window.DawnBloomVolunteers.switchDetailTab('guidance')">
+          🎓 Mentees & Sessions (${conductedSessions.length})
+        </button>
+        <button type="button" class="tab-btn" id="tabVolEvents" onclick="window.DawnBloomVolunteers.switchDetailTab('events')">
+          🎪 Events & Workshops (${participatedEvents.length})
+        </button>
+      </div>
+
+      <!-- PANEL 1: Profile & Skills -->
+      <div id="volPanelOverview">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; font-size: 0.88rem;">
+          <div style="background: rgba(75, 61, 79, 0.2); padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+            <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Email Address</div>
+            <div style="color: var(--text-primary); font-weight: 500;">${STORAGE.escapeHtml(vol.email)}</div>
+          </div>
+          <div style="background: rgba(75, 61, 79, 0.2); padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+            <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Phone Number</div>
+            <div style="color: var(--text-primary); font-weight: 500;">${STORAGE.escapeHtml(vol.phone || 'Not provided')}</div>
+          </div>
+          <div style="background: rgba(75, 61, 79, 0.2); padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+            <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Availability</div>
+            <div style="color: var(--c-blush-pink); font-weight: 500;">${STORAGE.escapeHtml(vol.availability || 'Flexible')}</div>
+          </div>
+          <div style="background: rgba(75, 61, 79, 0.2); padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+            <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Preferred Days</div>
+            <div style="color: var(--text-primary); font-weight: 500;">${STORAGE.escapeHtml(vol.preferredDays || 'Any')}</div>
+          </div>
         </div>
-        <div>
-          <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase;">Phone Number</div>
-          <div style="color: var(--text-primary); font-weight: 500;">${STORAGE.escapeHtml(vol.phone || 'Not provided')}</div>
+
+        <div style="margin-bottom: 12px;">
+          <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Skills & Guidance Expertise</div>
+          <div style="padding: 10px 14px; background: rgba(75, 61, 79, 0.25); border: 1px solid rgba(226, 194, 210, 0.15); border-radius: var(--radius-md); font-size: 0.88rem; color: #fff;">
+            ${STORAGE.escapeHtml(vol.skills || 'General Mentorship')}
+          </div>
         </div>
-        <div>
-          <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase;">Availability</div>
-          <div style="color: var(--c-blush-pink); font-weight: 500;">${STORAGE.escapeHtml(vol.availability || 'Flexible')}</div>
+
+        <div style="margin-bottom: 12px;">
+          <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Area of Mentorship Interest</div>
+          <div style="font-size: 0.88rem; color: var(--text-secondary);">
+            ${STORAGE.escapeHtml(vol.interest || 'Youth Development')}
+          </div>
         </div>
+
         <div>
-          <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase;">Preferred Days</div>
-          <div style="color: var(--text-primary); font-weight: 500;">${STORAGE.escapeHtml(vol.preferredDays || 'Any')}</div>
+          <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Coordinator Notes</div>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); background: rgba(22, 25, 36, 0.6); padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); margin: 0; line-height: 1.45;">
+            ${STORAGE.escapeHtml(vol.notes || 'No special notes recorded.')}
+          </p>
         </div>
       </div>
 
-      <div style="margin-bottom: 14px;">
-        <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Skills & Guidance Expertise</div>
-        <div style="padding: 10px 14px; background: rgba(75, 61, 79, 0.25); border: 1px solid rgba(226, 194, 210, 0.15); border-radius: var(--radius-md); font-size: 0.88rem; color: #fff;">
-          ${STORAGE.escapeHtml(vol.skills || 'General Mentorship')}
+      <!-- PANEL 2: Mentees & Guidance Sessions History -->
+      <div id="volPanelGuidance" style="display: none;">
+        <div style="margin-bottom: 12px;">
+          <div style="font-size: 0.82rem; font-weight: 600; color: #fff; margin-bottom: 6px;">Currently Assigned Students (${assignedStudents.length})</div>
+          ${assignedStudents.length === 0 ? `
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">No students assigned to this mentor currently.</p>
+          ` : `
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              ${assignedStudents.map(s => `
+                <div style="background: rgba(75, 61, 79, 0.35); border: 1px solid rgba(226, 194, 210, 0.2); border-radius: var(--radius-sm); padding: 6px 12px; font-size: 0.82rem;">
+                  <strong style="color: #fff;">${STORAGE.escapeHtml(s.name)}</strong> (${STORAGE.escapeHtml(s.classLevel || 'General')})
+                </div>
+              `).join('')}
+            </div>
+          `}
         </div>
+
+        <div style="font-size: 0.82rem; font-weight: 600; color: #fff; margin-bottom: 6px;">Guidance Sessions Conducted (${conductedSessions.length})</div>
+        ${conductedSessions.length === 0 ? `
+          <p style="font-size: 0.8rem; color: var(--text-muted);">No tutoring sessions recorded for this volunteer yet.</p>
+        ` : `
+          <div style="max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+            ${conductedSessions.map(cs => `
+              <div style="background: rgba(22, 25, 36, 0.8); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 8px 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                  <span style="font-weight: 600; color: #fff; font-size: 0.88rem;">${STORAGE.escapeHtml(cs.title)}</span>
+                  <span class="badge ${cs.status === 'Completed' ? 'badge-completed' : 'badge-scheduled'}" style="font-size: 0.68rem;">${cs.status}</span>
+                </div>
+                <div style="font-size: 0.76rem; color: var(--text-muted);">
+                  📅 ${window.DawnBloom.formatDate(cs.date)} • Student: <strong>${STORAGE.escapeHtml(cs.studentName)}</strong> • Subject: ${STORAGE.escapeHtml(cs.subject)}
+                </div>
+                ${cs.notes ? `
+                  <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 3px; font-style: italic;">
+                    "${STORAGE.escapeHtml(cs.notes)}"
+                  </div>
+                ` : ''}
+              </div>
+            `).join('')}
+          </div>
+        `}
       </div>
 
-      <div style="margin-bottom: 14px;">
-        <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Area of Mentorship Interest</div>
-        <div style="font-size: 0.88rem; color: var(--text-secondary);">
-          ${STORAGE.escapeHtml(vol.interest || 'Youth Development')}
-        </div>
-      </div>
-
-      <div>
-        <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Coordinator Notes</div>
-        <p style="font-size: 0.88rem; color: var(--text-secondary); background: rgba(22, 25, 36, 0.6); padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
-          ${STORAGE.escapeHtml(vol.notes || 'No special notes recorded.')}
-        </p>
+      <!-- PANEL 3: Events & Contributions History -->
+      <div id="volPanelEvents" style="display: none;">
+        <div style="font-size: 0.82rem; font-weight: 600; color: #fff; margin-bottom: 8px;">Workshops & Community Events Led / Co-facilitated (${participatedEvents.length})</div>
+        ${participatedEvents.length === 0 ? `
+          <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 16px;">This volunteer has not yet been assigned to community events.</p>
+        ` : `
+          <div style="max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+            ${participatedEvents.map(evt => `
+              <div style="background: rgba(22, 25, 36, 0.8); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                  <span style="font-weight: 600; color: #fff; font-size: 0.9rem;">${STORAGE.escapeHtml(evt.name)}</span>
+                  <span class="badge ${evt.status === 'Completed' ? 'badge-completed' : 'badge-scheduled'}" style="font-size: 0.7rem;">${evt.status}</span>
+                </div>
+                <div style="font-size: 0.78rem; color: var(--text-muted);">
+                  📅 ${window.DawnBloom.formatDate(evt.date)} • Category: <strong>${STORAGE.escapeHtml(evt.category)}</strong> • Venue: ${STORAGE.escapeHtml(evt.location || 'Main Hall')}
+                </div>
+                ${evt.outcome ? `
+                  <div style="font-size: 0.8rem; color: var(--c-blush-pink); margin-top: 4px;">
+                    ✓ Outcome: ${STORAGE.escapeHtml(evt.outcome)}
+                  </div>
+                ` : ''}
+              </div>
+            `).join('')}
+          </div>
+        `}
       </div>
     `;
 
     detailModalOverlay.classList.add('open');
+  }
+
+  function switchDetailTab(tabKey) {
+    const pOverview = document.getElementById('volPanelOverview');
+    const pGuidance = document.getElementById('volPanelGuidance');
+    const pEvents = document.getElementById('volPanelEvents');
+    const tOverview = document.getElementById('tabVolOverview');
+    const tGuidance = document.getElementById('tabVolGuidance');
+    const tEvents = document.getElementById('tabVolEvents');
+
+    if (tOverview) tOverview.classList.remove('active');
+    if (tGuidance) tGuidance.classList.remove('active');
+    if (tEvents) tEvents.classList.remove('active');
+
+    if (pOverview) pOverview.style.display = 'none';
+    if (pGuidance) pGuidance.style.display = 'none';
+    if (pEvents) pEvents.style.display = 'none';
+
+    if (tabKey === 'guidance') {
+      if (pGuidance) pGuidance.style.display = 'block';
+      if (tGuidance) tGuidance.classList.add('active');
+    } else if (tabKey === 'events') {
+      if (pEvents) pEvents.style.display = 'block';
+      if (tEvents) tEvents.classList.add('active');
+    } else {
+      if (pOverview) pOverview.style.display = 'block';
+      if (tOverview) tOverview.classList.add('active');
+    }
   }
 
   function closeDetailModal() {
@@ -396,6 +529,7 @@
     openCreateModal: () => openFormModal(),
     openEditModal,
     viewDetails,
+    switchDetailTab,
     deleteVolunteer
   };
 

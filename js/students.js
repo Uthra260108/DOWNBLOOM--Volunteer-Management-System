@@ -322,47 +322,165 @@
     const vol = currentVolunteers.find(v => v.id === s.assignedVolunteerId);
     const volunteerName = vol ? vol.name : (s.assignedVolunteerName || 'None assigned yet');
 
+    // Retrieve full historical records for this student
+    const allGuidance = STORAGE.getCollection(KEYS.GUIDANCE);
+    const studentSessions = allGuidance.filter(g => 
+      (g.studentId && g.studentId.toUpperCase() === s.id.toUpperCase()) || 
+      (g.studentName && g.studentName.toLowerCase().includes(s.name.toLowerCase().split(' ')[0]))
+    );
+
+    const allTasks = STORAGE.getCollection(KEYS.TASKS);
+    const studentTasks = allTasks.filter(t => 
+      (t.assignedStudentId && t.assignedStudentId.toUpperCase() === s.id.toUpperCase()) || 
+      (t.studentName && t.studentName.toLowerCase().includes(s.name.toLowerCase().split(' ')[0]))
+    );
+
     detailContent.innerHTML = `
-      <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px;">
+      <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 16px;">
         <div style="width: 52px; height: 52px; border-radius: var(--radius-md); background: rgba(226, 194, 210, 0.2); border: 1px solid rgba(226, 194, 210, 0.3); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; color: #fff;">
           ${s.name.substring(0, 2).toUpperCase()}
         </div>
-        <div>
-          <h3 style="font-size: 1.25rem; font-weight: 700; color: #fff;">${STORAGE.escapeHtml(s.name)}</h3>
-          <div style="display: flex; gap: 8px; align-items: center; margin-top: 4px;">
+        <div style="flex: 1;">
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: #fff; margin: 0;">${STORAGE.escapeHtml(s.name)}</h3>
+          <div style="display: flex; gap: 8px; align-items: center; margin-top: 4px; flex-wrap: wrap;">
             <span class="badge ${s.status === 'Active' ? 'badge-active' : 'badge-inactive'}">${STORAGE.escapeHtml(s.status)}</span>
             <span style="font-size: 0.8rem; color: var(--text-muted);">${STORAGE.escapeHtml(s.classLevel)} • ${STORAGE.escapeHtml(s.ageGroup)}</span>
+            <span style="font-size: 0.8rem; color: var(--c-blush-pink);">ID: ${STORAGE.escapeHtml(s.id)}</span>
           </div>
         </div>
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; font-size: 0.9rem;">
-        <div>
-          <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase;">Enrollment Date</div>
-          <div style="color: var(--text-primary); font-weight: 500;">${window.DawnBloom.formatDate(s.enrollmentDate)}</div>
+      <!-- Student Detail History Tabs -->
+      <div class="tabs-nav" style="margin-bottom: 16px;">
+        <button type="button" class="tab-btn active" id="tabStuOverview" onclick="window.DawnBloomStudents.switchDetailTab('overview')">
+          👤 Profile & Needs
+        </button>
+        <button type="button" class="tab-btn" id="tabStuSessions" onclick="window.DawnBloomStudents.switchDetailTab('sessions')">
+          📚 Guidance Sessions History (${studentSessions.length})
+        </button>
+        <button type="button" class="tab-btn" id="tabStuTasks" onclick="window.DawnBloomStudents.switchDetailTab('tasks')">
+          🎯 Assigned Tasks (${studentTasks.length})
+        </button>
+      </div>
+
+      <!-- PANEL 1: Profile & Details -->
+      <div id="stuPanelOverview">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; font-size: 0.88rem;">
+          <div style="background: rgba(75, 61, 79, 0.2); padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+            <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Enrollment Date</div>
+            <div style="color: var(--text-primary); font-weight: 500;">${window.DawnBloom.formatDate(s.enrollmentDate)}</div>
+          </div>
+          <div style="background: rgba(75, 61, 79, 0.2); padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+            <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Assigned Mentor</div>
+            <div style="color: var(--c-blush-pink); font-weight: 600;">${STORAGE.escapeHtml(volunteerName)}</div>
+          </div>
         </div>
+
+        <div style="margin-bottom: 12px;">
+          <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Guidance Focus Subjects</div>
+          <div style="padding: 10px 14px; background: rgba(75, 61, 79, 0.25); border: 1px solid rgba(226, 194, 210, 0.15); border-radius: var(--radius-md); font-size: 0.88rem; color: #fff;">
+            ${STORAGE.escapeHtml(s.subjects || 'General Tutoring')}
+          </div>
+        </div>
+
         <div>
-          <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase;">Assigned Mentor</div>
-          <div style="color: var(--c-blush-pink); font-weight: 600;">${STORAGE.escapeHtml(volunteerName)}</div>
+          <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Guidance Requirements & Mentor Notes</div>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); background: rgba(22, 25, 36, 0.6); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); line-height: 1.5; margin: 0;">
+            ${STORAGE.escapeHtml(s.guidanceNeeds || 'No specific guidance requirements noted.')}
+          </p>
         </div>
       </div>
 
-      <div style="margin-bottom: 14px;">
-        <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Subjects Needing Educational Support</div>
-        <div style="padding: 10px 14px; background: rgba(75, 61, 79, 0.25); border: 1px solid rgba(226, 194, 210, 0.15); border-radius: var(--radius-md); font-size: 0.88rem; color: #fff;">
-          ${STORAGE.escapeHtml(s.subjects || 'General Tutoring')}
-        </div>
+      <!-- PANEL 2: Guidance Sessions History -->
+      <div id="stuPanelSessions" style="display: none;">
+        <div style="font-size: 0.82rem; font-weight: 600; color: #fff; margin-bottom: 8px;">Completed & Scheduled Guidance Sessions</div>
+        ${studentSessions.length === 0 ? `
+          <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 16px;">No guidance sessions logged for this student yet.</p>
+        ` : `
+          <div style="max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+            ${studentSessions.map(sess => {
+              const isPast = sess.status === 'Completed';
+              return `
+                <div style="background: rgba(22, 25, 36, 0.8); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px 12px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <div style="font-weight: 600; color: #fff; font-size: 0.9rem;">${STORAGE.escapeHtml(sess.title)}</div>
+                    <span class="badge ${isPast ? 'badge-completed' : 'badge-scheduled'}" style="font-size: 0.7rem;">${sess.status}</span>
+                  </div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">
+                    📅 ${window.DawnBloom.formatDate(sess.date)} • ⏰ ${sess.startTime}–${sess.endTime} • 👤 Mentor: <strong>${STORAGE.escapeHtml(sess.volunteerName)}</strong>
+                  </div>
+                  ${sess.notes ? `
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; font-style: italic;">
+                      "${STORAGE.escapeHtml(sess.notes)}"
+                    </div>
+                  ` : ''}
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `}
       </div>
 
-      <div>
-        <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Guidance Requirements & Mentor Notes</div>
-        <p style="font-size: 0.88rem; color: var(--text-secondary); background: rgba(22, 25, 36, 0.6); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); line-height: 1.5;">
-          ${STORAGE.escapeHtml(s.guidanceNeeds || 'No specific guidance requirements noted.')}
-        </p>
+      <!-- PANEL 3: Tasks History -->
+      <div id="stuPanelTasks" style="display: none;">
+        <div style="font-size: 0.82rem; font-weight: 600; color: #fff; margin-bottom: 8px;">Assigned Practice Tasks & Status History</div>
+        ${studentTasks.length === 0 ? `
+          <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 16px;">No tasks specifically assigned to this student.</p>
+        ` : `
+          <div style="max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+            ${studentTasks.map(t => {
+              const isDone = t.status === 'Completed';
+              return `
+                <div style="background: rgba(22, 25, 36, 0.8); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px 12px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <div style="font-weight: 600; color: #fff; font-size: 0.9rem; ${isDone ? 'text-decoration: line-through; color: var(--text-muted);' : ''}">${STORAGE.escapeHtml(t.title)}</div>
+                    <span class="badge ${isDone ? 'badge-completed' : 'badge-in-progress'}" style="font-size: 0.7rem;">${t.status}</span>
+                  </div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">
+                    📅 Due: ${window.DawnBloom.formatDate(t.dueDate)} • Priority: <strong>${t.priority}</strong> • Mentor: ${STORAGE.escapeHtml(t.assignedVolunteerName || 'Tutor')}
+                  </div>
+                  ${t.description ? `
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">
+                      ${STORAGE.escapeHtml(t.description)}
+                    </div>
+                  ` : ''}
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `}
       </div>
     `;
 
     detailModalOverlay.classList.add('open');
+  }
+
+  function switchDetailTab(tabKey) {
+    const pOverview = document.getElementById('stuPanelOverview');
+    const pSessions = document.getElementById('stuPanelSessions');
+    const pTasks = document.getElementById('stuPanelTasks');
+    const tOverview = document.getElementById('tabStuOverview');
+    const tSessions = document.getElementById('tabStuSessions');
+    const tTasks = document.getElementById('tabStuTasks');
+
+    if (tOverview) tOverview.classList.remove('active');
+    if (tSessions) tSessions.classList.remove('active');
+    if (tTasks) tTasks.classList.remove('active');
+
+    if (pOverview) pOverview.style.display = 'none';
+    if (pSessions) pSessions.style.display = 'none';
+    if (pTasks) pTasks.style.display = 'none';
+
+    if (tabKey === 'sessions') {
+      if (pSessions) pSessions.style.display = 'block';
+      if (tSessions) tSessions.classList.add('active');
+    } else if (tabKey === 'tasks') {
+      if (pTasks) pTasks.style.display = 'block';
+      if (tTasks) tTasks.classList.add('active');
+    } else {
+      if (pOverview) pOverview.style.display = 'block';
+      if (tOverview) tOverview.classList.add('active');
+    }
   }
 
   function closeDetailModal() {
@@ -403,6 +521,7 @@
     openCreateModal: () => openFormModal(),
     openEditModal,
     viewDetails,
+    switchDetailTab,
     deleteStudent
   };
 

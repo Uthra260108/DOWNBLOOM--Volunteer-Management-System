@@ -99,7 +99,9 @@
       }
       try {
         localStorage.removeItem(KEYS.SESSION);
+        localStorage.removeItem('dawnbloom_session');
         sessionStorage.removeItem(KEYS.SESSION);
+        sessionStorage.removeItem('dawnbloom_session');
       } catch (e) {}
       return true;
     }
@@ -319,20 +321,33 @@
   }
 
   /**
-   * End current session and redirect to login
+   * End current session and redirect to login immediately
    */
   function logout() {
-    const user = getCurrentUser();
-    if (user) {
-      STORAGE.logActivity('Logout', `User signed out: ${user.studentId || user.email}`, user.name);
-    }
-    if (STORAGE && STORAGE.safeStorageRemove) {
-      STORAGE.safeStorageRemove(KEYS.SESSION);
-    }
+    try {
+      const user = getCurrentUser();
+      if (user && STORAGE && STORAGE.logActivity) {
+        STORAGE.logActivity('Logout', `User signed out: ${user.studentId || user.email}`, user.name);
+      }
+    } catch (e) {}
+
+    try {
+      if (STORAGE && STORAGE.safeStorageRemove) {
+        STORAGE.safeStorageRemove(KEYS.SESSION);
+      }
+    } catch (e) {}
+
     try {
       localStorage.removeItem(KEYS.SESSION);
-      sessionStorage.removeItem(KEYS.SESSION);
+      localStorage.removeItem('dawnbloom_session');
     } catch (e) {}
+
+    try {
+      sessionStorage.removeItem(KEYS.SESSION);
+      sessionStorage.removeItem('dawnbloom_session');
+    } catch (e) {}
+
+    // Immediate replacement to login page with logout flag
     window.location.replace('login.html?logout=true');
   }
 

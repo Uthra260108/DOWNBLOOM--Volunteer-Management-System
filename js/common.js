@@ -292,23 +292,26 @@
       }
     });
 
-    // 6. Sidebar logout button
-    const logoutBtn = document.getElementById('sidebarLogoutBtn');
-    if (logoutBtn) {
-      logoutBtn.addEventListener('click', (e) => {
+    // 6. Direct Logout Buttons (Header & Sidebar)
+    const logoutSelectors = '#sidebarLogoutBtn, #headerLogoutBtn, .btn-logout, [data-action="logout"]';
+    document.querySelectorAll(logoutSelectors).forEach(btn => {
+      btn.addEventListener('click', (e) => {
         e.preventDefault();
-        confirmDialog({
-          title: 'Sign Out',
-          message: 'Are you sure you want to end your current session?',
-          confirmText: 'Sign Out',
-          cancelText: 'Cancel'
-        }).then(confirmed => {
-          if (confirmed) {
+        e.stopPropagation();
+        if (window.DawnBloom && window.DawnBloom.showToast) {
+          window.DawnBloom.showToast('Signing out...', 'info');
+        }
+        setTimeout(() => {
+          if (window.DawnBloomAuth && window.DawnBloomAuth.logout) {
             window.DawnBloomAuth.logout();
+          } else {
+            localStorage.removeItem('dawnbloom_session');
+            sessionStorage.removeItem('dawnbloom_session');
+            window.location.replace('login.html?logout=true');
           }
-        });
+        }, 100);
       });
-    }
+    });
 
     // 7. Notification dropdown toggle
     const notifBtn = document.getElementById('headerNotifBtn');
